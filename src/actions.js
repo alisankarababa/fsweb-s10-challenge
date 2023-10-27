@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const NOT_EKLENDI = "not eklendi"
-export const NOT_SIL = "NOT_SIL"
+export const NOT_SILINDI = "not silindi"
 export const GOT_ORDER_REQUIRING_API = "GOT_ORDER_REQUIRING_API"
 export const GOT_ERROR = "GOT ERROR";
 
@@ -10,8 +10,8 @@ export function notEklendi(not) {
     return { type: NOT_EKLENDI, payload: not };
 }
 
-export function notSil(notId) {
-  // ...
+export function notSilindi(notId) {
+  return { type: NOT_SILINDI, payload: notId };
 }
 
 function gotError(error) {
@@ -38,13 +38,16 @@ export const notEkleAPI = (yeniNot) => dispatch => {
 }
 
 export const notSilAPI = (id) => dispatch => {
-  console.log(id)
+
+    dispatch(gotOrderRequiringApi());
   axios
     .delete("https://httpbin.org/anything", { data: id })
     .then((res) => {
       if (res.status === 200) {
-        // res.data objesi içerisinden ihtiyaç duyduğunuz değeri bulun ve oluşturduğunuz notSil ile dispatch edin 
+        dispatch(notSilindi(res.data.data));
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+        dispatch(gotError(error.message));
+    });
 }
