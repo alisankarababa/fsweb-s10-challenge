@@ -8,10 +8,11 @@ import { Provider } from 'react-redux';
 import { legacy_createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from '@redux-devtools/extension';
 import thunk from "redux-thunk"
+import { createLogger } from 'redux-logger' 
 
 import { reducerGratitudeJournal } from "./reducers"
 
-const middleware = composeWithDevTools(applyMiddleware(thunk));
+const middleware = composeWithDevTools(applyMiddleware(thunk, createLogger()));
 
 const reducers = combineReducers({
 
