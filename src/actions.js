@@ -22,7 +22,7 @@ function gotOrderRequiringApi () {
     return {type: GOT_ORDER_REQUIRING_API};
 }
 
-export const notEkleAPI = (yeniNot) => dispatch => {
+export const notEkleAPI = (yeniNot, resultNotEkle) => dispatch => {
 
     dispatch(gotOrderRequiringApi());
   axios
@@ -30,10 +30,12 @@ export const notEkleAPI = (yeniNot) => dispatch => {
     .then((res) => {
       if (res.status === 200) {
         dispatch(notEklendi(res.data.json));
-      }
+        resultNotEkle(true);
+    }
     })
     .catch((error) => {
         dispatch(gotError(error.message));
+        resultNotEkle(false);
     })
 }
 

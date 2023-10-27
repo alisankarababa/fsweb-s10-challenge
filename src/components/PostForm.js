@@ -6,6 +6,7 @@ import Gratitude from "./../assets/grForm.png";
 
 import { useDispatch } from "react-redux";
 import { notEkleAPI } from "../actions"
+import { toast } from "react-toastify";
 
 
 export default function PostForm() {
@@ -26,13 +27,45 @@ export default function PostForm() {
         .filter((v) => v !== "")
         .join("|"),
     };
+    
+    const toastId = toast.loading("Notunuz ekleniyor...", 
+        {
+            closeOnClick: true,
+            theme: "light"
+        }
+    );
 
-    dispatch(notEkleAPI(yeniNot));
-    // burada ilgili eylemi dispatch edin
-    // toast mesajı gösterin
-    // sonra aşağıdaki satırı aktifleştirin
-    // setTimeout(() => history.push("/notlar"), 2000);
+    function resultNotEkle(isSuccessfull) {
+        if(isSuccessfull) {
+            toast.update(toastId, 
+                {
+                    render: "Notunuz eklendi",
+                    type: "success",
+                    isLoading: false,
+                    autoClose: 2000,
+                    pauseOnHover: false
+                });
+            setTimeout(() => {
+                history.push("/notlar");
+            }, 2000);
+        } else {
+            toast.update(toastId,
+                {
+                    render: "Not ekleme başarısız",
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 2000,
+                    pauseOnHover: false
+                });
+        }
+    }
+
+    dispatch(notEkleAPI(yeniNot, resultNotEkle));
+
   }
+
+
+  
 
   const inputCx = "border border-zinc-300 h-9 rounded-none text-sm px-2 w-full";
 
