@@ -18,9 +18,13 @@ function gotError(error) {
     return { type: GOT_ERROR, payload: error};
 }
 
+function gotOrderRequiringApi () {
+    return {type: GOT_ORDER_REQUIRING_API};
+}
+
 export const notEkleAPI = (yeniNot) => dispatch => {
 
-    dispatch({type: GOT_ORDER_REQUIRING_API});
+    dispatch(gotOrderRequiringApi());
   axios
     .post("https://httpbin.org/anything", yeniNot)
     .then((res) => {
