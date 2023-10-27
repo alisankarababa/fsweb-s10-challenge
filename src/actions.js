@@ -39,7 +39,7 @@ export const notEkleAPI = (yeniNot, resultNotEkle) => dispatch => {
     })
 }
 
-export const notSilAPI = (id) => dispatch => {
+export const notSilAPI = (id, resultNotSil) => dispatch => {
 
     dispatch(gotOrderRequiringApi());
   axios
@@ -47,9 +47,11 @@ export const notSilAPI = (id) => dispatch => {
     .then((res) => {
       if (res.status === 200) {
         dispatch(notSilindi(res.data.data));
+        resultNotSil(true);
       }
     })
     .catch((error) => {
         dispatch(gotError(error.message));
+        resultNotSil(false);
     });
 }
