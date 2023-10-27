@@ -1,3 +1,5 @@
+import { NOT_EKLE, NOT_SIL} from "./actions";
+
 const s10chLocalStorageKey = "s10ch";
 
 const baslangicDegerleri = {
@@ -26,4 +28,19 @@ function baslangicNotlariniGetir(key) {
   } else {
     return baslangicDegerleri
   }
+}
+
+export function reducerGratitudeJournal(state=baslangicDegerleri, action) {
+
+    switch (action.type) {
+        case NOT_EKLE:
+
+        case NOT_SIL:
+    
+        default:
+            return state;
+    }
+
+
+
 }
