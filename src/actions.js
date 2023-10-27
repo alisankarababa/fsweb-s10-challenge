@@ -4,7 +4,7 @@ export const NOT_EKLENDI = "not eklendi"
 export const NOT_SILINDI = "not silindi"
 export const GOT_ORDER_REQUIRING_API = "GOT_ORDER_REQUIRING_API"
 export const GOT_ERROR = "GOT ERROR";
-
+export const GET_INITIAL_STATE = "GET_INITIAL_STATE";
 
 export function notEklendi(not) {
     return { type: NOT_EKLENDI, payload: not };
@@ -20,6 +20,10 @@ function gotError(error) {
 
 function gotOrderRequiringApi () {
     return {type: GOT_ORDER_REQUIRING_API};
+}
+
+export function getInitialState() {
+    return { type: GET_INITIAL_STATE };
 }
 
 export const notEkleAPI = (yeniNot, resultNotEkle) => dispatch => {

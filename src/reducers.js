@@ -1,4 +1,4 @@
-import { GOT_ORDER_REQUIRING_API, NOT_EKLENDI, NOT_SILINDI, GOT_ERROR} from "./actions";
+import { GET_INITIAL_STATE, GOT_ORDER_REQUIRING_API, NOT_EKLENDI, NOT_SILINDI, GOT_ERROR} from "./actions";
 
 const s10chLocalStorageKey = "s10ch";
 
@@ -36,22 +36,26 @@ export function reducerGratitudeJournal(state=baslangicDegerleri, action) {
 
     switch (action.type) {
         case NOT_EKLENDI:
-            return {...state, busy: false, notlar: [ action.payload, ...state.notlar ]}
+            const stateAfterNoteAdded = {...state, busy: false, notlar: [ action.payload, ...state.notlar ]};
+            localStorageStateYaz(s10chLocalStorageKey, stateAfterNoteAdded);
+            return stateAfterNoteAdded;
 
         case NOT_SILINDI:
-            const idDeletedNote = action.payload;
-            return { ...state, busy: false, notlar: state.notlar.filter( note  => note.id !== idDeletedNote ) };
+            const stateAfterNoteDeleted = { ...state, busy: false, notlar: state.notlar.filter( note  => note.id !== action.payload ) };
+            localStorageStateYaz(s10chLocalStorageKey, stateAfterNoteDeleted);
+            return stateAfterNoteDeleted;
 
         case GOT_ORDER_REQUIRING_API:
             return {...state, busy: true, error: null};
 
-        case GOT_ERROR: 
+        case GOT_ERROR:
             return {...state, busy: false, error: action.payload};
+
+        case GET_INITIAL_STATE:
+            const initialState = baslangicNotlariniGetir(s10chLocalStorageKey);
+            return initialState;
     
         default:
             return state;
     }
-
-
-
 }
