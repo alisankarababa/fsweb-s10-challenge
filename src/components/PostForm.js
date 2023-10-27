@@ -4,6 +4,10 @@ import { nanoid } from "nanoid";
 import { useHistory } from "react-router";
 import Gratitude from "./../assets/grForm.png";
 
+import { useDispatch } from "react-redux";
+import { notEkleAPI } from "../actions"
+
+
 export default function PostForm() {
   const {
     register,
@@ -12,6 +16,7 @@ export default function PostForm() {
   } = useForm({ mode: "onChange" });
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   function onSubmit(data) {
     const yeniNot = {
@@ -22,6 +27,7 @@ export default function PostForm() {
         .join("|"),
     };
 
+    dispatch(notEkleAPI(yeniNot));
     // burada ilgili eylemi dispatch edin
     // toast mesajı gösterin
     // sonra aşağıdaki satırı aktifleştirin
